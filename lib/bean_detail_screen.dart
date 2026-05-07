@@ -50,12 +50,12 @@ class BeanDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF9F6F0),
       appBar: AppBar(
         title: const Text(
           '원두 상세 정보',
           style: TextStyle(
-            color: Colors.black,
+            color: Color(0xFF1C150E),
             fontWeight: FontWeight.w700,
             fontSize: 18,
             letterSpacing: -0.5,
@@ -65,7 +65,7 @@ class BeanDetailScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(CupertinoIcons.back, color: Colors.black),
+          icon: const Icon(CupertinoIcons.back, color: Color(0xFF1C150E)),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -161,7 +161,7 @@ class BeanDetailScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 56,
                       child: CupertinoButton(
-                        color: Colors.black,
+                        color: const Color(0xFF8B6B46), // Espresso Brown
                         borderRadius: BorderRadius.circular(16),
                         child: const Text(
                           '구매처로 이동',

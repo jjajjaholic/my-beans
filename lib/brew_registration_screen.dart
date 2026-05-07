@@ -70,7 +70,7 @@ class _BrewRegistrationScreenState extends State<BrewRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F7),
+      backgroundColor: const Color(0xFFF9F6F0),
       appBar: AppBar(
         title: const Text(
           '새 추출 기록',
@@ -97,7 +97,7 @@ class _BrewRegistrationScreenState extends State<BrewRegistrationScreen> {
             child: const Text(
               '저장',
               style: TextStyle(
-                color: CupertinoColors.activeBlue,
+                color: Color(0xFF8B6B46),
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),

@@ -58,7 +58,7 @@ class _BeanRegistrationScreenState extends State<BeanRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F7),
+      backgroundColor: const Color(0xFFF9F6F0),
       appBar: AppBar(
         title: const Text(
           '새 원두 등록',
@@ -85,7 +85,7 @@ class _BeanRegistrationScreenState extends State<BeanRegistrationScreen> {
             child: const Text(
               '저장',
               style: TextStyle(
-                color: CupertinoColors.activeBlue,
+                color: Color(0xFF8B6B46),
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),

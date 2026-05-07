@@ -176,11 +176,11 @@ class BeanDetailCard extends StatelessWidget {
             valueLabel: '${(stockValue * 100).toInt()}%',
             dateLabel: '${currentWeight.toStringAsFixed(0)}g / ${initialWeight.toStringAsFixed(0)}g',
             gaugeValue: stockValue,
-            gaugeColor: stockValue > 0.2 ? CupertinoColors.activeBlue : CupertinoColors.systemRed,
+            gaugeColor: stockValue > 0.2 ? const Color(0xFF8B6B46) : CupertinoColors.systemRed,
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildGaugeSection({

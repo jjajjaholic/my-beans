@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'bean_detail_card.dart';
 import 'bean_registration_screen.dart';
 import 'brew_history_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const CoffeeApp());
@@ -17,8 +18,17 @@ class CoffeeApp extends StatelessWidget {
       title: 'Coffee Inventory',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: const Color(0xFFF2F2F7), // iOS 스타일 배경색
+        primarySwatch: Colors.brown,
+        scaffoldBackgroundColor: const Color(0xFFF9F6F0), // 따뜻한 커피 베이지색
+        textTheme: GoogleFonts.juaTextTheme(),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: GoogleFonts.jua(
+            color: const Color(0xFF1C150E),
+            fontWeight: FontWeight.w700,
+            fontSize: 22,
+            letterSpacing: -0.5,
+          ),
+        ),
       ),
       home: const MainTabScreen(),
     );
@@ -54,7 +64,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: CupertinoColors.activeBlue,
+        selectedItemColor: const Color(0xFF8B6B46), // Espresso Brown
         unselectedItemColor: CupertinoColors.systemGrey,
         backgroundColor: Colors.white,
         elevation: 8,
@@ -82,21 +92,33 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '현재 재고', 
-          style: TextStyle(
-            color: Colors.black, 
-            fontWeight: FontWeight.w700,
-            fontSize: 22,
-            letterSpacing: -0.5,
-          )
+        toolbarHeight: 70,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/character_new.png', 
+              width: 65, 
+              height: 65, 
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'My Beans', 
+              style: TextStyle(
+                color: Color(0xFF1C150E), // Black Coffee
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+                letterSpacing: -0.5,
+              )
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(CupertinoIcons.add, color: CupertinoColors.activeBlue, size: 28),
+            icon: const Icon(CupertinoIcons.add, color: Color(0xFF8B6B46), size: 28),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

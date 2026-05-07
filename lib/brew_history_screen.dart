@@ -9,12 +9,12 @@ class BrewHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F7),
+      backgroundColor: const Color(0xFFF9F6F0),
       appBar: AppBar(
         title: const Text(
           '추출 기록', 
           style: TextStyle(
-            color: Colors.black, 
+            color: Color(0xFF1C150E), 
             fontWeight: FontWeight.w700,
             fontSize: 22,
             letterSpacing: -0.5,
@@ -25,7 +25,7 @@ class BrewHistoryScreen extends StatelessWidget {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(CupertinoIcons.add, color: CupertinoColors.activeBlue, size: 28),
+            icon: const Icon(CupertinoIcons.add, color: Color(0xFF8B6B46), size: 28),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -43,7 +43,7 @@ class BrewHistoryScreen extends StatelessWidget {
         children: [
           _buildBrewLogCard(
             date: DateTime.now().subtract(const Duration(hours: 2)),
-            beanName: '에티오피아 예가체프 아리차 G1',
+            beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '핸드드립 (V60)',
             dose: 20,
             yieldAmount: 300,
@@ -51,7 +51,7 @@ class BrewHistoryScreen extends StatelessWidget {
           ),
           _buildBrewLogCard(
             date: DateTime.now().subtract(const Duration(days: 1, hours: 5)),
-            beanName: '콜롬비아 엘 파라이소 리치',
+            beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '에스프레소',
             dose: 18,
             yieldAmount: 36,
@@ -59,7 +59,7 @@ class BrewHistoryScreen extends StatelessWidget {
           ),
           _buildBrewLogCard(
             date: DateTime.now().subtract(const Duration(days: 2)),
-            beanName: '과테말라 안티구아',
+            beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '에어로프레스',
             dose: 15,
             yieldAmount: 200,
