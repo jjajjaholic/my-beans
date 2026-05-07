@@ -1,17 +1,66 @@
-# coffee_inventory
+# Coffee Inventory App ☕️
 
-A new Flutter project.
+iOS 감성의 깔끔하고 세련된 디자인을 갖춘 **개인용 커피 원두 및 추출 기록 관리 앱**입니다. 이 프로젝트는 Flutter를 기반으로 제작되었으며, 사용자 친화적인 UI/UX를 제공합니다.
 
-## Getting Started
+## ✨ 핵심 기능 (Features)
 
-This project is a starting point for a Flutter application.
+1. **현재 재고 관리 (Dashboard)**
+   - 보유 중인 원두를 사진 기반의 직관적인 카드로 확인.
+   - 로스팅 날짜를 기준으로 현재 원두의 **신선도 게이지(디개싱, 최상의 맛 등)** 자동 계산.
+   - 현재 남은 용량 및 구매 용량 시각화 바 제공.
+   - 원두 카드를 터치하여 **상세 정보 화면**으로 이동 및 외부 쇼핑몰 링크 연결 (`url_launcher` 활용).
 
-A few resources to get you started if this is your first Flutter project:
+2. **새 원두 등록 (Registration)**
+   - 새 원두의 사진 등록 (카메라/앨범) UI 제공.
+   - 로스터리, 로스팅 날짜, 무게 및 테이스팅 노트 입력 폼.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+3. **추출 기록 관리 (Brew History)**
+   - 내가 내린 커피에 대한 상세한 기록(사용량, 추출량, 도구) 및 5점 만점의 별점 평가 기능.
+   - iOS 스타일의 하단 팝업 휠(`CupertinoPicker`)을 통한 원두 선택.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🛠️ 개발 및 변경 히스토리 (Development History)
+
+이 프로젝트는 사용자의 피드백을 바탕으로 다음과 같이 점진적으로 발전했습니다.
+
+### 1단계: 기본 뼈대 및 UI 기획
+- 하단 탭(`BottomNavigationBar`) 구조를 사용하여 '현재 재고'와 '추출 기록' 두 개의 탭으로 앱 분리.
+- 상태 유지를 위해 `IndexedStack`을 활용한 부드러운 화면 전환.
+- 3개의 하드코딩된 가상 원두 데이터를 이용해 초기 UI 및 신선도 로직 테스트.
+
+### 2단계: UX 고도화 및 추출 기능 완성
+- 단순 텍스트 입력이었던 폼들을 iOS 스타일 네이티브 팝업 요소로 변경 (예: 날짜 선택을 위한 `CupertinoDatePicker`).
+- 사용자가 직접 자신이 마신 커피를 기록할 수 있는 추출 기록 페이지(`brew_registration_screen.dart`) 신규 추가.
+
+### 3단계: 사진 기반 인벤토리로의 전환 및 디테일 강화 (주요 변경점)
+- **사진 기반 데이터 연동:** 기존의 가짜 원두 3종을 삭제하고, 실제 원두 패키지 사진('Koffee Sniffer'의 Colombia Campo Hermoso) 정보를 추출하여 **단일 실물 기반 데이터**로 변경.
+- **이미지 생성 및 삽입:** 인공지능을 이용해 실물에 가까운 원두 패키지 이미지를 생성한 뒤, 프로젝트 로컬 에셋(`assets/koffee_sniffer.png`)으로 등록.
+- **상세 화면 & 구매처 이동:** UI 텍스트를 영문명으로 정돈하고, 카드 터치 시 큰 사진과 상세 내역을 볼 수 있는 `bean_detail_screen.dart` 신규 개발.
+- 외부 패키지(`url_launcher`)를 연동해 앱 내에서 쇼핑몰 링크를 바로 띄울 수 있는 기능 추가.
+
+---
+
+## 📁 주요 폴더 구조
+
+```text
+lib/
+ ├── main.dart                          # 앱 엔트리포인트 및 대시보드(현재 재고) 탭
+ ├── bean_detail_card.dart              # 대시보드에 표시되는 원두 정보 위젯 (사진/신선도 게이지)
+ ├── bean_detail_screen.dart            # 원두 카드 터치 시 나오는 상세 정보 및 구매처 링크 화면
+ ├── bean_registration_screen.dart      # 새 원두를 등록하는 입력 폼 화면
+ ├── brew_history_screen.dart           # 추출 기록 목록을 보여주는 탭
+ └── brew_registration_screen.dart      # 새 추출 기록(레시피, 별점)을 남기는 화면
+assets/
+ └── koffee_sniffer.png                 # 원두 패키지 로컬 이미지 리소스
+```
+
+## 🚀 실행 방법
+
+본 프로젝트는 `url_launcher` 등의 네이티브 플러그인을 포함하고 있습니다. 환경 세팅 후, 아래의 명령어로 실행해 주세요.
+
+```bash
+flutter clean
+flutter pub get
+flutter run
+```
