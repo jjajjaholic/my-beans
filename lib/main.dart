@@ -30,6 +30,16 @@ class CoffeeApp extends StatelessWidget {
           ),
         ),
       ),
+      builder: (context, child) {
+        return Container(
+          color: const Color(0xFFE5E5EA), // 넓은 화면일 때 좌우 여백의 배경색 (부드러운 회색)
+          alignment: Alignment.center,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: child,
+          ),
+        );
+      },
       home: const MainTabScreen(),
     );
   }

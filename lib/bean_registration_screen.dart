@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
+import 'services/gemini_service.dart';
 
 class BeanRegistrationScreen extends StatefulWidget {
   const BeanRegistrationScreen({Key? key}) : super(key: key);
@@ -14,6 +19,100 @@ class _BeanRegistrationScreenState extends State<BeanRegistrationScreen> {
   final _weightController = TextEditingController();
   final _notesController = TextEditingController();
   DateTime _roastDate = DateTime.now();
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? _selectedImage;
+  bool _isExtractingInfo = false;
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _selectedImage = pickedFile;
+          _isExtractingInfo = true;
+        });
+
+        // Gemini API로 텍스트 추출 시도
+        final bytes = await pickedFile.readAsBytes();
+        final mimeType = lookupMimeType(pickedFile.path) ?? 'image/jpeg';
+        
+        final extractedData = await GeminiService.extractBeanInfo(bytes, mimeType);
+        
+        if (extractedData != null && mounted) {
+          setState(() {
+            if (extractedData['name'] != null) _nameController.text = extractedData['name'].toString();
+            if (extractedData['roaster'] != null) _roasterController.text = extractedData['roaster'].toString();
+            if (extractedData['weight'] != null) _weightController.text = extractedData['weight'].toString();
+            if (extractedData['flavorNotes'] != null) _notesController.text = extractedData['flavorNotes'].toString();
+            if (extractedData['roastDate'] != null) {
+              try {
+                _roastDate = DateTime.parse(extractedData['roastDate'].toString());
+              } catch (e) {
+                // Parse error ignore
+              }
+            }
+            _isExtractingInfo = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('사진에서 원두 정보를 성공적으로 추출했습니다!')),
+          );
+        } else {
+          setState(() {
+            _isExtractingInfo = false;
+          });
+          if (mounted) {
+             ScaffoldMessenger.of(context).showSnackBar(
+               const SnackBar(content: Text('정보 추출 실패: API Key가 없거나 사진을 인식할 수 없습니다.')),
+             );
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+      setState(() {
+        _isExtractingInfo = false;
+      });
+    }
+  }
+
+  void _handleImageSelection() {
+    if (kIsWeb) {
+      // 웹에서는 모달 없이 바로 갤러리(파일 탐색기) 팝업 실행
+      _pickImage(ImageSource.gallery);
+    } else {
+      // 모바일에서는 모달 팝업으로 카메라/앨범 선택
+      showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext context) => CupertinoActionSheet(
+          title: const Text('사진 등록'),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.camera);
+              },
+              child: const Text('카메라로 촬영'),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.gallery);
+              },
+              child: const Text('앨범에서 선택'),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('취소'),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -98,9 +197,7 @@ class _BeanRegistrationScreenState extends State<BeanRegistrationScreen> {
         children: [
           Center(
             child: GestureDetector(
-              onTap: () {
-                // TODO: 사진 촬영 또는 앨범 선택 로직
-              },
+              onTap: _handleImageSelection,
               child: Container(
                 width: 100,
                 height: 100,
@@ -109,12 +206,30 @@ class _BeanRegistrationScreenState extends State<BeanRegistrationScreen> {
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: CupertinoColors.systemGrey4),
                 ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                clipBehavior: Clip.hardEdge,
+                child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    Icon(CupertinoIcons.camera_fill, color: CupertinoColors.systemGrey, size: 32),
-                    SizedBox(height: 8),
-                    Text('사진 등록', style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12, fontWeight: FontWeight.w600)),
+                    if (_selectedImage != null)
+                      (kIsWeb
+                          ? Image.network(_selectedImage!.path, fit: BoxFit.cover)
+                          : Image.file(File(_selectedImage!.path), fit: BoxFit.cover))
+                    else
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(CupertinoIcons.camera_fill, color: CupertinoColors.systemGrey, size: 32),
+                          SizedBox(height: 8),
+                          Text('사진 등록', style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12, fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                    if (_isExtractingInfo)
+                      Container(
+                        color: Colors.black45,
+                        child: const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                      ),
                   ],
                 ),
               ),
