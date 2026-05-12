@@ -124,7 +124,7 @@ class BrewHistoryScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Text('🫘', style: TextStyle(fontSize: 12)),
+                  Image.asset('assets/coffee_cup_icon.png', width: 28, height: 28),
                   const SizedBox(width: 4),
                   Text(
                     rating.toStringAsFixed(1),
