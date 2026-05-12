@@ -151,10 +151,11 @@ class _BrewRegistrationScreenState extends State<BrewRegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (index) {
                   return IconButton(
-                    icon: Icon(
-                      index < _rating ? CupertinoIcons.star_fill : CupertinoIcons.star,
-                      color: CupertinoColors.systemYellow,
-                      size: 32,
+                    icon: Image.asset(
+                      'assets/coffee_cup_icon.png',
+                      width: 32,
+                      height: 32,
+                      color: index < _rating ? const Color(0xFF8B6B46) : CupertinoColors.systemGrey4,
                     ),
                     onPressed: () {
                       setState(() {

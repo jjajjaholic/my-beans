@@ -11,14 +11,26 @@ class BrewHistoryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F6F0),
       appBar: AppBar(
-        title: const Text(
-          '추출 기록', 
-          style: TextStyle(
-            color: Color(0xFF1C150E), 
-            fontWeight: FontWeight.w700,
-            fontSize: 22,
-            letterSpacing: -0.5,
-          )
+        toolbarHeight: 70,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/character_new.png', 
+              width: 65, 
+              height: 65, 
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              '추출 기록', 
+              style: TextStyle(
+                color: Color(0xFF1C150E), 
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+                letterSpacing: -0.5,
+              )
+            ),
+          ],
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -42,6 +54,7 @@ class BrewHistoryScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
           _buildBrewLogCard(
+            context: context,
             date: DateTime.now().subtract(const Duration(hours: 2)),
             beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '핸드드립 (V60)',
@@ -50,6 +63,7 @@ class BrewHistoryScreen extends StatelessWidget {
             rating: 4.5,
           ),
           _buildBrewLogCard(
+            context: context,
             date: DateTime.now().subtract(const Duration(days: 1, hours: 5)),
             beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '에스프레소',
@@ -58,6 +72,7 @@ class BrewHistoryScreen extends StatelessWidget {
             rating: 5.0,
           ),
           _buildBrewLogCard(
+            context: context,
             date: DateTime.now().subtract(const Duration(days: 2)),
             beanName: 'Colombia Campo Hermoso Sudan Rume Washed C.M',
             method: '에어로프레스',
@@ -71,6 +86,7 @@ class BrewHistoryScreen extends StatelessWidget {
   }
 
   Widget _buildBrewLogCard({
+    required BuildContext context,
     required DateTime date,
     required String beanName,
     required String method,
@@ -82,13 +98,13 @@ class BrewHistoryScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: CupertinoColors.systemGrey.withOpacity(0.15),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -102,13 +118,13 @@ class BrewHistoryScreen extends StatelessWidget {
                 DateFormat('yyyy.MM.dd HH:mm').format(date),
                 style: const TextStyle(
                   fontSize: 13,
-                  color: Colors.grey,
+                  color: CupertinoColors.systemGrey,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Row(
                 children: [
-                  const Icon(CupertinoIcons.star_fill, color: CupertinoColors.systemYellow, size: 14),
+                  const Text('🫘', style: TextStyle(fontSize: 12)),
                   const SizedBox(width: 4),
                   Text(
                     rating.toStringAsFixed(1),
@@ -129,12 +145,14 @@ class BrewHistoryScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
               letterSpacing: -0.5,
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: CupertinoColors.systemGrey6,
+              color: const Color(0xFF8B6B46).withOpacity(0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
@@ -142,7 +160,7 @@ class BrewHistoryScreen extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: CupertinoColors.activeBlue,
+                color: Color(0xFF8B6B46),
               ),
             ),
           ),
@@ -170,7 +188,7 @@ class BrewHistoryScreen extends StatelessWidget {
           label,
           style: const TextStyle(
             fontSize: 11,
-            color: Colors.grey,
+            color: CupertinoColors.systemGrey,
           ),
         ),
         const SizedBox(height: 4),
